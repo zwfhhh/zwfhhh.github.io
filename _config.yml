@@ -2,7 +2,7 @@ name: XiaoZhang
 author: XiaoZhang
 url: https://zwfhhh.github.io
 resume_site: https://zwfhhh.github.io
-baseurl: 
+baseurl: "https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image"
 description: 前进前进前进
 github_username: zwfhhh
 github: https://github.com/zwfhhh
