@@ -1,0 +1,22 @@
+name: XiaoZhang
+author: XiaoZhang
+url: https://zwfhhh.github.io
+resume_site: https://zwfhhh.github.io
+baseurl: 
+description: you website desc
+github_username: zwfhhh
+github: https://github.com/zwfhhh
+plugins: [jekyll-paginate]
+permalink: /:year-:month-:day-:title
+paginate: 12
+paginate_path: "/page/:num/"
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+highlighter: rouge
+markdown: kramdown
+comments :
+  gitalk :
+    clientID : 2799a370b15584191e4b
+    clientSecret : 9dd83d2a73db7392e0205d6b88b1caf1165102ee
+    repo : zwfhhh.github.io
+    owner : zwfhhh
+    admin : zwfhhh
