@@ -1,9 +1,10 @@
 name: XiaoZhang
+title: XiaoZhang's Blog
 author: XiaoZhang
 url: https://zwfhhh.github.io
 resume_site: https://zwfhhh.github.io
 baseurl: 
-description: 前进前进前进
+description: Nothing is impossible to a willing man
 github_username: zwfhhh
 github: https://github.com/zwfhhh
 plugins: [jekyll-paginate]
