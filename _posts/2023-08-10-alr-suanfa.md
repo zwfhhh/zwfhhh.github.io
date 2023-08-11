@@ -2,7 +2,7 @@
 layout: post
 title: 关于BFS和DFS算法
 date: 2023-08-10 23:40:00 +0800
-category: 算法
+category: Algorithm
 thumbnail: https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image/algorithm.jpg
 icon: note
 ---

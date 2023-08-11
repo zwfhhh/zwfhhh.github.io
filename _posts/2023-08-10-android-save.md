@@ -2,9 +2,9 @@
 layout: post
 title: Android项目打包为apk时候没有带上sqllite数据
 date: 2023-08-10 23:20:00 +0800
-category: android
+category: Android
 thumbnail: https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image/note.jpg
-icon: note
+icon: code
 ---
 
 
