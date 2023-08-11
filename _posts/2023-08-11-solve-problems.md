@@ -444,11 +444,12 @@ p[find(a)] = find(b);
 
 > 这种方式主要是运用于这个图中的最短路问题，用于这个二维数组的排序
 
-```java
+
+```
 public class Test5 {
  
     public static void main(String[] args) {
-        int[][] arr = {{1,9},{2,5},{19,20},{10,11},{12,20},{0,3},{0,1},{0,2}};
+        int[][] arr = { {1,9},{2,5},{19,20},{10,11},{12,20},{0,3},{0,1},{0,2} };
         Arrays.sort(arr,new Comparator<int[]>(){
             @Override
             public int compare(int[] o1, int[] o2) {
@@ -465,6 +466,7 @@ public class Test5 {
         }
     }
 }
+
 ```
 
 ![image-20230315213525130](C:\Users\18249\AppData\Roaming\Typora\typora-user-images\image-20230315213525130.png)
