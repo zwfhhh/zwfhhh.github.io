@@ -774,3 +774,150 @@ controller返回的是静态html
 2.也可以不使用，其中有自定义注释
 
 3.也可以使用自定义返回值
+
+
+<hr>
+
+## jwt的使用
+验证中场景的异常信息：
+
+SignatureVerificationException 签名不一致异常
+
+TokenExpiredException Token过期异常
+
+AlgorithmMismatchException 算法不匹配异常
+
+InvalidClaimException 失效的payload异常
+
+### 封装处理
+```
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import java.util.Calendar;
+import java.util.Map;
+public class JWTUtils {
+  // 秘钥
+  private static final String SING = "123qwaszx";
+  /**
+  * 生成Token header.payload.sing 组成
+  * @return
+  */
+  public static String getToken(Map<String,String> map){
+    Calendar instance = Calendar.getInstance();
+    instance.add(Calendar.DATE,7); // 默认过期时间 7天
+ 然后就是用户提交请求的时候需要携带Token信息，然后我们在controller中处理请求之前需要对
+token做出校验。如果验证通过就继续处理请求，否则就拦截该请求。
+但是上面的情况我们看到在controller中添加了大幅度的Token校验的代码，增大的冗余代码，这时
+我们可以考虑把Token校验的代码放在拦截器中处理。我们创建一个自定义的拦截器.
+    JWTCreator.Builder builder = JWT.create();
+    // payload 设置
+    map.forEach((k,v)->{
+      builder.withClaim(k,v);
+   });
+    // 生成Token 并返回
+    return builder.withExpiresAt(instance.getTime())
+       .sign(Algorithm.HMAC256(SING));
+ }
+  /**
+  * 验证Token
+  * @return
+  *   DecodedJWT 可以用来获取用户信息
+  */
+  public static DecodedJWT verify(String token){
+    // 如果不抛出异常说明验证通过，否则验证失败
+    return JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
+ }
+}
+```
+
+然后就是用户提交请求的时候需要携带Token信息，然后我们在controller中处理请求之前需要对
+token做出校验。如果验证通过就继续处理请求，否则就拦截该请求
+
+```
+@PostMapping("/queryUser")
+  public Map<String,Object> queryUser(@RequestParam("token") String token){
+    // 获取用信息之前校验
+    Map<String,Object> map = new HashMap<>();
+    try{
+      DecodedJWT verify = JWTUtils.verify(token);
+      map.put("state",true);
+      map.put("msg","请求成功");
+      return map;
+   }catch (SignatureVerificationException e){
+      e.printStackTrace();
+      map.put("msg","无效签名");
+   }catch (TokenExpiredException e){
+      e.printStackTrace();
+      map.put("msg","Token过期");
+   }catch (AlgorithmMismatchException e){
+      e.printStackTrace();
+      map.put("msg","算法不一致");
+   }catch (Exception e){
+      e.printStackTrace();
+      map.put("msg","Token无效");
+   }
+    map.put("state",false);
+    return map;
+ }
+```
+
+但是上面的情况我们看到在controller中添加了大幅度的Token校验的代码，增大的冗余代码，这时
+我们可以考虑把Token校验的代码放在拦截器中处理。我们创建一个自定义的拦截器.
+
+```
+/**
+要让拦截器生效我们还需要添加对应的配置类。
+然后访问测试即可
+* 自定义的拦截器
+*   对特定的情况校验是否携带的有Token信息，如果不携带直接拒绝
+*   然后对Token校验合法性
+*/
+public class JWTInterceptor implements HandlerInterceptor {
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+Object handler) throws Exception {
+    String token = request.getParameter("token");
+    // 获取用信息之前校验
+    Map<String,Object> map = new HashMap<>();
+    try{
+      DecodedJWT verify = JWTUtils.verify(token);
+      return true;
+   }catch (SignatureVerificationException e){
+      e.printStackTrace();
+      map.put("msg","无效签名");
+   }catch (TokenExpiredException e){
+      e.printStackTrace();
+      map.put("msg","Token过期");
+   }catch (AlgorithmMismatchException e){
+      e.printStackTrace();
+      map.put("msg","算法不一致");
+   }catch (Exception e){
+      e.printStackTrace();
+      map.put("msg","Token无效");
+   }
+    map.put("state",false);
+    // 把Map转换为JSON响应
+    String json = new ObjectMapper().writeValueAsString(map);
+    response.setContentType("application/json;charset=UTF-8");
+    response.getWriter().println(json);
+    return false;
+ }
+}
+```
+
+要让拦截器生效我们还需要添加对应的配置类。
+
+```
+@Configuration
+public class InterceptorConfig implements WebMvcConfigurer {
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new JWTInterceptor())
+       .addPathPatterns("/queryUser") // 需要拦截的请求
+       .addPathPatterns("/saveUser") // 需要拦截的请求
+       .excludePathPatterns("/login"); // 需要排除的请求
+ }
+}
+```
