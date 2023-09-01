@@ -1,7 +1,7 @@
 ---
 layout: post
 title: spring boot  + vue项目记录
-date: 2023-08-30 17:14:00 +0800
+date: 2023-09-01 16:59:00 +0800
 category: Web
 thumbnail: https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image/project.jpg
 icon: web
@@ -124,7 +124,8 @@ var option1 = {
 
 创建以下代码目录
 
-![](https://img-blog.csdnimg.cn/ccf9621f989c44d68c79e5cd30a71de5.png)
+
+[点击图片](https://img-blog.csdnimg.cn/ccf9621f989c44d68c79e5cd30a71de5.png)
 
 
 ### 整合swagger
@@ -760,5 +761,16 @@ public class MyFastGeneratorConfiguration {
 }
 
 ```
+<hr>
 
+###restcontroller和controller区别
+restcontroller的返回值是json格式
 
+controller返回的是静态html
+
+##resultwrapper对返回结果的封装
+1.可以帮助我们自动封装controller的返回集合
+
+2.也可以不使用，其中有自定义注释
+
+3.也可以使用自定义返回值
