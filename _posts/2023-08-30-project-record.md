@@ -921,3 +921,52 @@ public class InterceptorConfig implements WebMvcConfigurer {
  }
 }
 ```
+
+
+## SpringSecurity整合jwt
+[csdn博客，点击查看](https://blog.csdn.net/qq_51705526/article/details/124544614?ydreferer=aHR0cHM6Ly93d3cuY3Nkbi5uZXQv)
+
+### 跨域失效的问题
+在项目整合的SpringSecurity后。我们配置的 CrossOrigin 失效了。主要原因是拦截器的执行在过
+滤器之后。没有了作用，这时我们可以通过SpringSecurity来配置对应的跨域支持的信息
+
+```
+/**
+  * 设置跨域的信息
+  * @return
+  */
+  CorsConfigurationSource corsConfigurationSource(){
+    CorsConfiguration config = new CorsConfiguration();
+    // 配置跨域拦截的相关信息
+    config.setAllowedHeaders(Arrays.asList("*"));
+    config.setAllowedMethods(Arrays.asList("*"));
+    config.setAllowedOrigins(Arrays.asList("*"));
+    config.setMaxAge(3600l);
+    UrlBasedCorsConfigurationSource source = new
+UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**",config);
+    return source;
+ }
+```
+
+然后关联配置即可
+
+[https://img-blog.csdnimg.cn/5b104eed125644db9a146ea6d46fd9fb.png](https://img-blog.csdnimg.cn/5b104eed125644db9a146ea6d46fd9fb.png)
+### Axios的拦截器
+前面解决了跨域问题。但是访问后端数据的时候还是访问不到，原因就是请求没有携带相关的Token
+信息。这时我们可以通过Axios的拦截器。在每次请求都拦截下来。同时在header中绑定我们的Token值
+就可以了
+
+```
+// 添加 Axios 的拦截器
+axios.interceptors.request.use(config =>{
+ // 每次发送请求我们都携带token信息
+ var token =
+'bogeeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzEzODAzMDksInVzZXJuYW1lIjoiYWRt
+aW4ifQ.QXHL_tPQlijHzHcCHEjqTx9tQWjrwQxUSd7xqw0f5lk';
+ config.headers['Authorization']=token // 请求头带上Token
+ return config;
+},error=>{
+ return Promise.reject(error);
+})
+```
