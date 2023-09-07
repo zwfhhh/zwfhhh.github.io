@@ -1,7 +1,7 @@
 ---
 layout: post
-title: spring boot  + vue项目记录
-date: 2023-09-01 16:59:00 +0800
+title: servlet通过idea创建maven项目
+date: 2023-09-07 22:46:00 +0800
 category: Web
 thumbnail: https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image/servlet.jpg
 icon: web
