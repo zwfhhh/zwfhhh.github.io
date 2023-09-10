@@ -197,6 +197,19 @@ public class JsonUtils {
 }
 ```
 
+具体的导包有
+[点击查看](https://img-blog.csdnimg.cn/62db2d48ab9e446c865cbd0dd351d37e.png)
+
+导入依赖
+
+```
+<dependency>
+      <groupId>com.fasterxml</groupId>
+      <artifactId>jackson-xml-databind</artifactId>
+      <version>0.6.2</version>
+    </dependency>
+```
+
 ### 2.refreshAccessTokenTask视频中爆红问题
 由于component对象注入问题，refreshAccessTokenTask对象为null,通过上面我在网上找的beans.xml文件
 
@@ -217,5 +230,26 @@ access_token每日获取token限制次数为20次
 [https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B)
 
 
-## 注意
+
+
+## 请求
+所有从公众号点击之后发起的请求都会发给配置好的url中，所有需要写一个处理发过来的请求的方法
+
+## 被动消息
+用户发过来某个特定的消息之后，后台回复消息，不能主动推送消息，后台可根据消息的不同类型类确定返回值
+
+## 模板消息
+可以主动和关注用户推送消息
+
+## 消息发重复的原因
+消息服务器在5s内收不到响应，会重新发请求，一共三次
+
+推荐使用FromUserName+CreateTime排重
+
+# 总结
+微信公众号开发相当于前端定义好了规则，点击一些按钮或者发送一些消息之后，全部会通过post的方式发给配置好的url，在后台进一步处理
+
+# 注意
 由于端口访问次数限制,我之前可以获取到token，但是现在这里token现在获取为null,所以以上方法仅供参考
+
+
