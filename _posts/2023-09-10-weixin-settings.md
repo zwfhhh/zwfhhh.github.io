@@ -217,3 +217,5 @@ access_token每日获取token限制次数为20次
 [https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B)
 
 
+## 注意
+由于端口访问次数限制,我之前可以获取到token，但是现在这里token现在获取为null,所以以上方法仅供参考
