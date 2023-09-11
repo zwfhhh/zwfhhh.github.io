@@ -156,6 +156,14 @@ public class J1 implements Job {
 jsonUtils工具
 
 ```
+import cn.hutool.core.lang.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
 public class JsonUtils {
 //    private static Logger logger = (Logger) LoggerFactory.getLogger(JsonUtils.class);
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -204,9 +212,21 @@ public class JsonUtils {
 
 ```
 <dependency>
-      <groupId>com.fasterxml</groupId>
-      <artifactId>jackson-xml-databind</artifactId>
-      <version>0.6.2</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.9.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.9.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.6</version>
     </dependency>
 ```
 
@@ -249,7 +269,29 @@ access_token每日获取token限制次数为20次
 # 总结
 微信公众号开发相当于前端定义好了规则，点击一些按钮或者发送一些消息之后，全部会通过post的方式发给配置好的url，在后台进一步处理
 
-# 注意
-由于端口访问次数限制,我之前可以获取到token，但是现在这里token现在获取为null,所以以上方法仅供参考
+## FileUtil
+
+```
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+
+public class FileUtil {
+
+    public static void inputstream2file(InputStream inputStream,File file){
+        if(inputStream!=null&&file!=null){
+            try {
+                java.nio.file.Files.copy(
+                        inputStream,
+                        file.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
 
 
