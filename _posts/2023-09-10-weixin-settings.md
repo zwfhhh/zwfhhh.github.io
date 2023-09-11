@@ -266,8 +266,7 @@ access_token每日获取token限制次数为20次
 
 推荐使用FromUserName+CreateTime排重
 
-# 总结
-微信公众号开发相当于前端定义好了规则，点击一些按钮或者发送一些消息之后，全部会通过post的方式发给配置好的url，在后台进一步处理
+
 
 ## FileUtil
 
@@ -294,4 +293,13 @@ public class FileUtil {
 }
 ```
 
+## 关于map2xml时的转义问题
+[点击查看](https://img-blog.csdnimg.cn/c4acf5377c0e40fb83023898292f0731.png)
+简单来说setEscaptext方法默认时开启转义的，所以需要设置为false
+
+可以查看dom4j官方文档
+[https://www.oschina.net/uploads/doc/dom4j-1.6.1/index.html](https://www.oschina.net/uploads/doc/dom4j-1.6.1/index.html)
+
+# 总结
+微信公众号开发相当于前端定义好了规则，点击一些按钮或者发送一些消息之后，全部会通过post的方式发给配置好的url，在后台进一步处理
 
