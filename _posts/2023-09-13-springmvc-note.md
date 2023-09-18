@@ -166,3 +166,47 @@ getDefaultMessage 获取我属性上注解的messgae
 传递bool值使用1 or 0 === true or false
 
 
+## springmvc输出
+### 请求控制器
+
+需要在类头中加上@controller,将类转载到spring容器中
+
+类体中的方法头添加映射注解@RqeustMapping
+
+### 步骤
+1.浏览器向服务器发起请求，指定请求的文件，项目中的test01
+
+2.web容器中查找出test01对应的方案方法所在类，testController->test01方法
+
+3.执行犯法中的语句
+
+4.返回字符串形成视图——》转发页面
+
+注意：浏览器中请求的方式为get，如果requestmapping中的value和method的参数没有特殊指定，默认为value,这时的value映射时唯一的，如果指定了value和method,则value+method 唯一
+
+### 重定向
+自动让浏览器中的url重新请求
+
+javaweb ----response.sendRedirect()
+
+springmvc----- 格式 retrun redirect:控制器名称
+
+注意：重定向会倒是httpservletRequest失效
+
+### 页面转发
+前缀+字符串+后缀 需要保证文件组合成的路径在存在
+
+页面转发时，可以使用httpserveltreqeust对象传递到jsp页面中，jsp页面中可以使用el,jstl表达式输出到html对应位置上
+
+如果需要传值，需要在形参位置加上httpserveltrequest or httpservletresponse的参数
+
+
+### 页面输出（json数据 前后端交互）
+不同定向，不转发页面 ，有控制器直接输出到页面
+
+添加@ResponseBody 返回json数据
+
+处理中文汉字乱码问题在页面输出
+> 解法 使用requestmapping中的参数 produces="text/html;charset=UTF-8"
+,如果返回数据为json，则设置为“application/json;charset=UTF-8”
+
