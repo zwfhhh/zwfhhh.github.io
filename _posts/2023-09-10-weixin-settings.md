@@ -349,7 +349,15 @@ public class FileUtil {
 
 流程：当扫码登录得二维码一直显示二维码时候，没有人去扫描二维码得时候，前端一直向登录得url请求，后台会一直打印，直到前台打印20之后，显示二维码过期，需要重新刷新页面，respons.getwriter().println("特定得值"),当微信用户扫码完成之后，对数据库进行一定操作，向后台打印特定值，前端判定完成扫码之后，停止发请求，直接跳转到首页
 
+## 云服务器太卡得解决方法
+这里可以使用自己得电脑来进行开发，太卡会影响开发效率，最后可以把成品项目放服务器上面去调试，我们采用内网穿透得方法，将我们自己得本地tomcat映射到ip上，下面是内网穿透在微信服务器和我们后台服务器得关系
 
+![](https://img-blog.csdnimg.cn/0df6d56c882c4650acdc11cc057b6c1c.png)
+
+
+使用natapp进行内网穿透，软件下载地址[https://natapp.cn/](https://natapp.cn/)
+
+使用教程[https://natapp.cn/article/natapp_newbie](https://natapp.cn/article/natapp_newbie)
 
 # 总结
 微信公众号开发相当于前端定义好了规则，点击一些按钮或者发送一些消息之后，全部会通过post的方式发给配置好的url，在后台进一步处理
