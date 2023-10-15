@@ -1,6 +1,6 @@
 ---
 layout: post
-title: springsecurity 项目使用
+title: springsecurity and jwt 项目使用
 date: 2023-10-15 11:30:00 +0800
 category: SpringSecurity
 thumbnail: https://cdn.jsdelivr.net/gh/zwfhhh/media-library/image/project.jpg
@@ -12,7 +12,7 @@ icon: note
 {:toc}
 # springsecurity 项目使用
 
-## 首先springsecurity 配置都在一个配置类中，
+## 首先springsecurity 配置都在一个配置类中
 1. 配置自定义的用户查找service userdataileservice 
 
 ```
@@ -270,4 +270,55 @@ public class MySpringSecurityConfiguration extends WebSecurityConfigurerAdapter 
 }
 ```
 
+## jwt 工具包
 
+```
+/**
+ * JWT操作的工具类
+ */
+public class JWTUtils {
+
+    private static final String SECERT = "xxx";
+
+    /**
+     * 生成Token信息
+     * @return
+     */
+    public static String getToken(Map<String,String> map){
+        JWTCreator.Builder builder = JWT.create();
+        // 设置 payload
+        map.forEach((k,v)->{
+            builder.withClaim(k,v);
+        });
+        // 设置过期时间
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,7); // 默认的过期时间是7天
+        Map<String,Object> header = new HashMap<>();
+        header.put("alg","HS256");
+        header.put("typ","JWT");
+        return builder.withHeader(header)
+                .withExpiresAt(calendar.getTime())
+                .sign(Algorithm.HMAC256(SECERT));
+    }
+
+    /**
+     * 验证Token
+     * @return
+     *     DecodedJWT  可以用来获取用户信息
+     */
+    public static DecodedJWT verify(String token){
+        // 如果不抛出异常说明验证通过，否则验证失败
+        DecodedJWT verify = null;
+        try {
+            verify = JWT.require(Algorithm.HMAC256(SECERT)).build().verify(token);
+        }catch (SignatureVerificationException e){
+            e.printStackTrace();
+        }catch (AlgorithmMismatchException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return verify;
+    }
+}
+```
